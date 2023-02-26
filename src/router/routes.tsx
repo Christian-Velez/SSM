@@ -1,18 +1,29 @@
 import { Landing } from '@/features/misc'
 import { Layout } from '@/components/Layout'
 import { lazyImport } from '@/utils/lazyImport'
-import { Outlet } from 'react-router-dom'
+import { Outlet, Navigate } from 'react-router-dom'
+import { Suspense } from 'react'
 
 const { VigenereCipher } = lazyImport(
    () => import('@/features/VigenereCipher'),
    'VigenereCipher'
 )
 
+const { FiniteFields } = lazyImport(
+   () => import('@/features/FiniteFields'),
+   'FiniteFields'
+)
+
+const { Matrix } = lazyImport(() => import('@/features/Matrix'), 'Matrix')
+
 function App() {
    return (
-      <Layout>
-         <Outlet />
-      </Layout>
+      // TODO: Fallback
+      <Suspense fallback={null}>
+         <Layout>
+            <Outlet />
+         </Layout>
+      </Suspense>
    )
 }
 
@@ -27,16 +38,11 @@ const appRoutes = [
    },
    {
       path: '/finite-fields',
-      element: <h1>Finite fields: inverse aditive, modular inverse</h1>,
+      element: <FiniteFields />,
    },
    {
       path: '/matrix',
-      element: (
-         <h1>
-            Matrix: multiply, sum, inverse matrix using gauss-jordan. Finite
-            fields, Infinite Fields and Complex numbers
-         </h1>
-      ),
+      element: <Matrix />,
    },
 ]
 
@@ -45,5 +51,9 @@ export const routes = [
       path: '/',
       element: <App />,
       children: appRoutes,
+   },
+   {
+      path: '*',
+      element: <Navigate to='/' />,
    },
 ]
