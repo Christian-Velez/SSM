@@ -14,7 +14,10 @@ const { FiniteFields } = lazyImport(
    'FiniteFields'
 )
 
-const { Matrix } = lazyImport(() => import('@/features/Matrix'), 'Matrix')
+const { MatrixPage } = lazyImport(
+   () => import('@/features/Matrix'),
+   'MatrixPage'
+)
 
 function App() {
    return (
@@ -42,7 +45,7 @@ const appRoutes = [
    },
    {
       path: '/matrix',
-      element: <Matrix />,
+      element: <MatrixPage />,
    },
 ]
 
