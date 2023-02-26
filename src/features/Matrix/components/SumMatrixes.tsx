@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { Matrix } from '@/features/Matrix/components/Matrix'
 import { StrArrayToNumber } from '../utils/index'
-import { sumMatrix } from '@/features/Matrix/utils'
+import { sumMatrixes } from '@/features/Matrix/utils'
 import { useMatrix } from '@/features/Matrix/hooks'
 
 interface SumMatrixesProps {
@@ -30,7 +30,7 @@ export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
    useEffect(() => {
       const a = StrArrayToNumber(matrixA)
       const b = StrArrayToNumber(matrixB)
-      setR(sumMatrix(a, b, mod))
+      setR(sumMatrixes(a, b, mod))
    }, [matrixA, matrixB, setR, mod])
 
    return (

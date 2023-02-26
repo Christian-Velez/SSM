@@ -1,3 +1,4 @@
+import { MultiplyMatrixes } from '@/features/Matrix/components/MultiplyMatrixes'
 import { SumMatrixes } from '@/features/Matrix/components/SumMatrixes'
 import { Box, Input, Select, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
@@ -8,7 +9,7 @@ export type Field = 'finite' | 'infinite'
 export function MatrixPage() {
    const [field, setField] = useState<Field>('infinite')
    const [modulus, setModulus] = useState(2)
-   const [option, setOperation] = useState<Option>('sum')
+   const [option, setOperation] = useState<Option>('multiply')
 
    return (
       <Box>
@@ -49,6 +50,9 @@ export function MatrixPage() {
          </VStack>
 
          {option === 'sum' && <SumMatrixes field={field} modulus={modulus} />}
+         {option === 'multiply' && (
+            <MultiplyMatrixes field={field} modulus={modulus} />
+         )}
       </Box>
    )
 }
