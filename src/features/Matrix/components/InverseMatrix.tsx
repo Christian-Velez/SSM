@@ -33,6 +33,8 @@ export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
             <Input
                w={20}
                type='number'
+               min={1}
+               max={10}
                value={size}
                onChange={(e) => setSize(e.target.value)}
             />

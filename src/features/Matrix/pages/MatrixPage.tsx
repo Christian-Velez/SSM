@@ -10,7 +10,7 @@ export type Field = 'finite' | 'infinite'
 export function MatrixPage() {
    const [field, setField] = useState<Field>('infinite')
    const [modulus, setModulus] = useState(2)
-   const [option, setOperation] = useState<Option>('inverse')
+   const [option, setOperation] = useState<Option>('multiply')
 
    return (
       <Box>

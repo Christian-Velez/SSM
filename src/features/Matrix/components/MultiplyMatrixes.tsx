@@ -3,7 +3,7 @@ import { Field } from '@/features/Matrix/pages'
 import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react'
 import { Matrix } from '@/features/Matrix/components/Matrix'
 import { useMatrix } from '@/features/Matrix/hooks'
-import { useState } from 'react'
+import { isValidElement, useState } from 'react'
 import {
    multiplyMatrixes,
    StrArrayToNumber,
@@ -42,8 +42,13 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
 
    const a = format(matrixA, rowsA, columnsA)
    const b = format(matrixB, rowsB, columnsB)
-   const matrixR = multiplyMatrixes(a, b, mod)
-   const result = matrixToArray(matrixR).map((v) => v.toString())
+
+   let result: Array<string> = []
+
+   if (isValid) {
+      const matrixR = multiplyMatrixes(a, b, mod)
+      result = matrixToArray(matrixR).map((v) => v.toString())
+   }
 
    return (
       <VStack spacing={10}>
@@ -126,7 +131,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
                mod={mod}
             />
          ) : (
-            <Text>Matrixes sizes not valid</Text>
+            <Text mt={20}>Matrixes sizes not valid</Text>
          )}
       </VStack>
    )

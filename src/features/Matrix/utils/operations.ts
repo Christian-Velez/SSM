@@ -28,8 +28,16 @@ export function multiplyMatrixes(
    modulus?: number
 ) {
    const rowsA = a.length
-   const columnsA = a[0].length
-   const columnsB = b[0].length
+   const columnsA = a[0]?.length ?? 0
+   const rowsB = b.length
+   const columnsB = b[0]?.length ?? 0
+
+   if (columnsA !== rowsB) {
+      throw new Error('Invalid matrix dimensions')
+   }
+
+   if (rowsA === 0 || columnsB === 0) return []
+
    const result: Array<Array<number>> = generateMatrix(rowsA, columnsB)
 
    for (let r = 0; r < rowsA; r++) {
@@ -121,8 +129,10 @@ function transformRowBasedOnPivot_Finite(
 }
 
 export function inverseMatrix(a: Array<Array<number>>, modulus?: number) {
-   const rows = a.length
-   const columns = a[0].length
+   const rows = a.length ?? 0
+   const columns = a[0]?.length ?? 0
+   if (rows === 0 || columns === 0) return []
+
    const extended = generateExtendedMatrix(a)
 
    for (let pivot = 0; pivot < rows; pivot++) {
