@@ -1,15 +1,16 @@
+import { InverseMatrix } from '@/features/Matrix/components/InverseMatrix'
 import { MultiplyMatrixes } from '@/features/Matrix/components/MultiplyMatrixes'
 import { SumMatrixes } from '@/features/Matrix/components/SumMatrixes'
 import { Box, Input, Select, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
 
-type Option = 'sum' | 'multiply' | 'invert'
+type Option = 'sum' | 'multiply' | 'inverse'
 export type Field = 'finite' | 'infinite'
 
 export function MatrixPage() {
    const [field, setField] = useState<Field>('infinite')
    const [modulus, setModulus] = useState(2)
-   const [option, setOperation] = useState<Option>('multiply')
+   const [option, setOperation] = useState<Option>('inverse')
 
    return (
       <Box>
@@ -45,13 +46,17 @@ export function MatrixPage() {
             >
                <option value='sum'>Sum</option>
                <option value='multiply'>Multiply</option>
-               <option value='invert'>Invert</option>
+               <option value='inverse'>Inverse</option>
             </Select>
          </VStack>
 
          {option === 'sum' && <SumMatrixes field={field} modulus={modulus} />}
          {option === 'multiply' && (
             <MultiplyMatrixes field={field} modulus={modulus} />
+         )}
+
+         {option === 'inverse' && (
+            <InverseMatrix field={field} modulus={modulus} />
          )}
       </Box>
    )

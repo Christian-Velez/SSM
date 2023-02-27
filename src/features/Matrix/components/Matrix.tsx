@@ -8,6 +8,16 @@ interface MatrixProps {
    field: Field
    mod: number | undefined
    onCellChange?: (value: string, index: number) => void
+   cellSize?: string
+}
+
+function formatValue(value: string) {
+   const asNum = Number(value)
+   const remainder = Math.abs(asNum) % 1
+
+   if (remainder === 0) return value
+
+   return asNum.toFixed(2).toString()
 }
 
 export function Matrix({
@@ -17,7 +27,9 @@ export function Matrix({
    onCellChange,
    field,
    mod,
+   cellSize = '50px',
 }: MatrixProps) {
+   const readOnly = !Boolean(onCellChange)
    let max: number
 
    if (field === 'finite' && mod !== undefined) {
@@ -27,32 +39,40 @@ export function Matrix({
    return (
       <Box>
          <Grid
-            templateColumns={`repeat(${columns}, 50px)`}
-            templateRows={`repeat(${rows}, 50px)`}
+            templateColumns={`repeat(${columns}, ${cellSize})`}
+            templateRows={`repeat(${rows}, ${cellSize})`}
          >
-            {values.map((value, i) => (
-               <Input
-                  disabled={!Boolean(onCellChange)}
-                  key={i}
-                  border='1px'
-                  p={0}
-                  h='full'
-                  w='full'
-                  borderColor='blue.200'
-                  borderRadius='none'
-                  display='flex'
-                  justifyContent='center'
-                  alignItems='center'
-                  textAlign='center'
-                  value={value}
-                  type='number'
-                  onChange={(e) => {
-                     onCellChange && onCellChange(e.target.value, i)
-                  }}
-                  min={field === 'finite' ? 0 : ''}
-                  max={max}
-               />
-            ))}
+            {values.map((value, i) => {
+               let v = value
+
+               if (readOnly) {
+                  v = formatValue(value)
+               }
+
+               return (
+                  <Input
+                     disabled={readOnly}
+                     key={i}
+                     border='1px'
+                     p={0}
+                     h='full'
+                     w='full'
+                     borderColor='blue.200'
+                     borderRadius='none'
+                     display='flex'
+                     justifyContent='center'
+                     alignItems='center'
+                     textAlign='center'
+                     value={v}
+                     type='number'
+                     onChange={(e) => {
+                        onCellChange && onCellChange(e.target.value, i)
+                     }}
+                     min={field === 'finite' ? 0 : ''}
+                     max={max}
+                  />
+               )
+            })}
          </Grid>
       </Box>
    )

@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react'
 import { AddIcon } from '@chakra-ui/icons'
 import { Field } from '@/features/Matrix/pages'
-import {
-   HStack,
-   IconButton,
-   Input,
-   Text,
-   VStack,
-} from '@chakra-ui/react'
+import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react'
 import { Matrix } from '@/features/Matrix/components/Matrix'
 import { StrArrayToNumber } from '../utils/index'
-import { sumMatrixes } from '@/features/Matrix/utils'
+import { sumArrays } from '@/features/Matrix/utils'
 import { useMatrix } from '@/features/Matrix/hooks'
 
 interface SumMatrixesProps {
@@ -23,15 +17,12 @@ export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
    const [columns, setColumns] = useState('2')
    const [matrixA, onMatrixAChange] = useMatrix(Number(rows), Number(columns))
    const [matrixB, onMatrixBChange] = useMatrix(Number(rows), Number(columns))
-   const [matrixR, _, setR] = useMatrix(Number(rows), Number(columns))
 
    const mod = field === 'finite' ? modulus : undefined
 
-   useEffect(() => {
-      const a = StrArrayToNumber(matrixA)
-      const b = StrArrayToNumber(matrixB)
-      setR(sumMatrixes(a, b, mod))
-   }, [matrixA, matrixB, setR, mod])
+   const a = StrArrayToNumber(matrixA)
+   const b = StrArrayToNumber(matrixB)
+   const result = sumArrays(a, b, mod)
 
    return (
       <VStack spacing={10}>
@@ -76,7 +67,7 @@ export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
          <Matrix
             rows={rows}
             columns={columns}
-            values={matrixR}
+            values={result}
             field={field}
             mod={mod}
          />
