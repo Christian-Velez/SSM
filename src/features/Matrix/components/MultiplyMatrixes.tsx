@@ -1,9 +1,17 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Field } from '@/features/Matrix/pages'
-import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react'
+import {
+   Heading,
+   HStack,
+   IconButton,
+   Input,
+   Stack,
+   Text,
+   VStack,
+} from '@chakra-ui/react'
 import { Matrix } from '@/features/Matrix/components/Matrix'
 import { useMatrix } from '@/features/Matrix/hooks'
-import { isValidElement, useState } from 'react'
+import { useState } from 'react'
 import {
    multiplyMatrixes,
    StrArrayToNumber,
@@ -52,7 +60,18 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
 
    return (
       <VStack spacing={10}>
-         <HStack spacing={5}>
+         <Heading fontSize='lg'>Multiply matrixes</Heading>
+
+         <Stack
+            gap={5}
+            direction={{
+               base: 'column',
+               md: 'row',
+            }}
+            spacing={5}
+            flexWrap='wrap'
+            align='center'
+         >
             <VStack>
                <HStack>
                   <Input
@@ -120,7 +139,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
                   mod={mod}
                />
             </VStack>
-         </HStack>
+         </Stack>
 
          {isValid ? (
             <Matrix

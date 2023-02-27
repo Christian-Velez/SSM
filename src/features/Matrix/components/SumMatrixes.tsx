@@ -1,7 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AddIcon } from '@chakra-ui/icons'
 import { Field } from '@/features/Matrix/pages'
-import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react'
+import {
+   Heading,
+   HStack,
+   IconButton,
+   Input,
+   Stack,
+   Text,
+   VStack,
+} from '@chakra-ui/react'
 import { Matrix } from '@/features/Matrix/components/Matrix'
 import { StrArrayToNumber } from '../utils/index'
 import { sumArrays } from '@/features/Matrix/utils'
@@ -26,10 +34,13 @@ export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
 
    return (
       <VStack spacing={10}>
+         <Heading fontSize='lg'>Sum matrixes</Heading>
          <HStack>
             <Input
                w={20}
                value={rows}
+               type='number'
+               min={0}
                onChange={(e) => setRows(e.target.value)}
             />
 
@@ -38,11 +49,23 @@ export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
             <Input
                w={20}
                value={columns}
+               min={0}
+               type='number'
                onChange={(e) => setColumns(e.target.value)}
             />
          </HStack>
 
-         <HStack spacing={5}>
+         <Stack
+            direction={{
+               base: 'column',
+               md: 'row',
+            }}
+            spacing={5}
+            alignItems='center'
+            gap={5}
+            flexWrap='wrap'
+            justifyContent='center'
+         >
             <Matrix
                rows={rows}
                columns={columns}
@@ -62,7 +85,7 @@ export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
                field={field}
                mod={mod}
             />
-         </HStack>
+         </Stack>
 
          <Matrix
             rows={rows}

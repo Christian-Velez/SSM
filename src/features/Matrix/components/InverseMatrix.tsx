@@ -1,5 +1,5 @@
 import { Field } from '@/features/Matrix/pages'
-import { HStack, Input, VStack } from '@chakra-ui/react'
+import { Heading, HStack, Input, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Matrix } from './Matrix'
 import { useMatrix } from '../hooks/index'
@@ -29,6 +29,8 @@ export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
 
    return (
       <VStack spacing={10}>
+         <Heading fontSize='lg'>Inverse matrix</Heading>
+
          <HStack>
             <Input
                w={20}
@@ -57,7 +59,7 @@ export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
             values={result}
             field={field}
             mod={mod}
-            cellSize='70px'
+            cellSize='70'
          />
       </VStack>
    )

@@ -10,7 +10,7 @@ export type Field = 'finite' | 'infinite'
 export function MatrixPage() {
    const [field, setField] = useState<Field>('infinite')
    const [modulus, setModulus] = useState(2)
-   const [option, setOperation] = useState<Option>('multiply')
+   const [option, setOperation] = useState<Option>('sum')
 
    return (
       <Box>
@@ -30,7 +30,6 @@ export function MatrixPage() {
                <Input
                   value={modulus}
                   type='number'
-                  min={2}
                   onChange={(e) => {
                      setModulus(Number(e.target.value))
                   }}
@@ -50,14 +49,18 @@ export function MatrixPage() {
             </Select>
          </VStack>
 
-         {option === 'sum' && <SumMatrixes field={field} modulus={modulus} />}
-         {option === 'multiply' && (
-            <MultiplyMatrixes field={field} modulus={modulus} />
-         )}
+         <VStack py={20} flexWrap='wrap'>
+            {option === 'sum' && (
+               <SumMatrixes field={field} modulus={modulus} />
+            )}
+            {option === 'multiply' && (
+               <MultiplyMatrixes field={field} modulus={modulus} />
+            )}
 
-         {option === 'inverse' && (
-            <InverseMatrix field={field} modulus={modulus} />
-         )}
+            {option === 'inverse' && (
+               <InverseMatrix field={field} modulus={modulus} />
+            )}
+         </VStack>
       </Box>
    )
 }
