@@ -21,7 +21,6 @@ const { MatrixPage } = lazyImport(
 
 function App() {
    return (
-      // TODO: Fallback
       <Suspense fallback={null}>
          <Layout>
             <Outlet />

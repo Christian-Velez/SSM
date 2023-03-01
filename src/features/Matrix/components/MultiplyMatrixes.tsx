@@ -22,7 +22,7 @@ import { FieldText } from '@/features/Matrix/components/FieldText'
 
 interface MultiplyMatrixesProps {
    field: Field
-   modulus: number
+   mod: number | undefined
 }
 
 const MAX_MATRIX_SIZE = 5
@@ -37,7 +37,7 @@ function format(
    return asMatrix
 }
 
-export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
+export function MultiplyMatrixes({ field, mod }: MultiplyMatrixesProps) {
    const [rowsA, setRowsA] = useState('2')
    const [columnsA, setColumnsA] = useState('2')
    const [matrixA, onMatrixAChange] = useMatrix(Number(rowsA), Number(columnsA))
@@ -46,7 +46,6 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
    const [columnsB, setColumnsB] = useState('2')
    const [matrixB, onMatrixBChange] = useMatrix(Number(rowsB), Number(columnsB))
 
-   const mod = field === 'finite' ? modulus : undefined
    const isValid = columnsA === rowsB && rowsA
 
    const a = format(matrixA, rowsA, columnsA)

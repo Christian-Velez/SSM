@@ -18,23 +18,21 @@ import { FieldText } from '@/features/Matrix/components/FieldText'
 
 interface SumMatrixesProps {
    field: Field
-   modulus: number
+   mod: number | undefined
 }
 
-export function SumMatrixes({ field, modulus }: SumMatrixesProps) {
+export function SumMatrixes({ field, mod }: SumMatrixesProps) {
    const [rows, setRows] = useState('2')
    const [columns, setColumns] = useState('2')
    const [matrixA, onMatrixAChange] = useMatrix(Number(rows), Number(columns))
    const [matrixB, onMatrixBChange] = useMatrix(Number(rows), Number(columns))
-
-   const mod = field === 'finite' ? modulus : undefined
 
    const a = StrArrayToNumber(matrixA)
    const b = StrArrayToNumber(matrixB)
    const result = sumArrays(a, b, mod)
 
    return (
-      <VStack spacing={20}>
+      <VStack spacing={10}>
          <Heading fontSize='2xl'>
             Sum matrixes {mod && <FieldText mod={mod} />}
          </Heading>

@@ -18,3 +18,10 @@ export function mod(A: number, M: number): number {
    const result = A % M
    return result < 0 ? result + M : result
 }
+
+export function isPrime(num: number): boolean {
+   for (let i = 2, s = Math.sqrt(num); i <= s; i++) {
+      if (num % i === 0) return false
+   }
+   return num > 1
+}

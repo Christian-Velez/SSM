@@ -10,7 +10,7 @@ import { Field } from '@/features/Matrix/pages'
 
 interface InverseMatrixProps {
    field: Field
-   modulus: number
+   mod: number | undefined
 }
 
 function format(array: Array<string>, size: string): Array<Array<number>> {
@@ -19,10 +19,9 @@ function format(array: Array<string>, size: string): Array<Array<number>> {
    return asMatrix
 }
 
-export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
+export function InverseMatrix({ field, mod }: InverseMatrixProps) {
    const [size, setSize] = useState('2')
    const [matrix, onCellChange] = useMatrix(Number(size), Number(size))
-   const mod = field === 'finite' ? modulus : undefined
 
    const a = format(matrix, size)
    const [matrixR, extended] = inverseMatrix(a, mod)
