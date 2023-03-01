@@ -37,10 +37,10 @@ const navigation: NavLink[] = [
    },
 ]
 
-function NavItem({ item }: { item: NavLink }) {
+function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
    return (
-      <ChakraLink as={Link} to={item.to} color='whiteAlpha'>
-         {item.label}
+      <ChakraLink as={Link} to={to} color='whiteAlpha'>
+         {children}
       </ChakraLink>
    )
 }
@@ -64,7 +64,9 @@ export function Navbar() {
                mt={{ base: 4, md: 0 }}
             >
                {navigation.map((item) => (
-                  <NavItem key={item.to} item={item} />
+                  <NavItem key={item.to} to={item.to}>
+                     {item.label}
+                  </NavItem>
                ))}
             </Stack>
 
@@ -82,7 +84,7 @@ export function Navbar() {
                      <MenuList>
                         {navigation.map((item) => (
                            <MenuItem key={item.to}>
-                              <NavItem item={item} />
+                              <NavItem to={item.to}>{item.label}</NavItem>
                            </MenuItem>
                         ))}
                      </MenuList>

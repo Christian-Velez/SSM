@@ -1,17 +1,18 @@
 import { isPrime } from '@/features/FiniteFields/utils'
 import { InverseMatrix } from '@/features/Matrix/components/InverseMatrix'
 import { MultiplyMatrixes } from '@/features/Matrix/components/MultiplyMatrixes'
+import { RREF } from '@/features/Matrix/components/RREF'
 import { SumMatrixes } from '@/features/Matrix/components/SumMatrixes'
 import { Box, Input, Select, Text, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
 
-type Option = 'sum' | 'multiply' | 'inverse'
+type Option = 'sum' | 'multiply' | 'inverse' | 'rref'
 export type Field = 'finite' | 'infinite'
 
 export function MatrixPage() {
    const [field, setField] = useState<Field>('infinite')
    const [modulus, setModulus] = useState<string>('2')
-   const [option, setOperation] = useState<Option>('sum')
+   const [option, setOperation] = useState<Option>('rref')
 
    const mod: number | undefined =
       field === 'finite' ? Number(modulus) : undefined
@@ -50,6 +51,7 @@ export function MatrixPage() {
                <option value='sum'>Sum</option>
                <option value='multiply'>Multiply</option>
                <option value='inverse'>Inverse</option>
+               <option value='rref'>RREF</option>
             </Select>
          </VStack>
 
@@ -79,8 +81,8 @@ function Content({
       <VStack py={20} flexWrap='wrap'>
          {option === 'sum' && <SumMatrixes field={field} mod={mod} />}
          {option === 'multiply' && <MultiplyMatrixes field={field} mod={mod} />}
-
          {option === 'inverse' && <InverseMatrix field={field} mod={mod} />}
+         {option === 'rref' && <RREF field={field} mod={mod} />}
       </VStack>
    )
 }
