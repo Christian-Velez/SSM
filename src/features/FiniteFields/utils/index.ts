@@ -13,3 +13,8 @@ export function modularInverse(A: number, M: number): number | string {
 
    return 1
 }
+
+export function mod(A: number, M: number): number {
+   const result = A % M
+   return result < 0 ? result + M : result
+}

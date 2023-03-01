@@ -1,11 +1,12 @@
-import { Field } from '@/features/Matrix/pages'
-import { Heading, HStack, Input, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
-import { Matrix } from './Matrix'
 import { useMatrix } from '../hooks/index'
-import { ArrToMatrix, StrArrayToNumber } from '@/features/Matrix/utils'
-import { inverseMatrix } from '../utils/operations'
 import { matrixToArray } from '../utils/format'
+import { MatrixContainer } from '@/features/Matrix/components/MatrixContainer'
+import { inverseMatrix } from '../utils/operations'
+import { Heading, HStack, Input, Text, VStack } from '@chakra-ui/react'
+import { ArrToMatrix, StrArrayToNumber } from '@/features/Matrix/utils'
+import { FieldText } from './FieldText'
+import { Field } from '@/features/Matrix/pages'
 
 interface InverseMatrixProps {
    field: Field
@@ -24,12 +25,15 @@ export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
    const mod = field === 'finite' ? modulus : undefined
 
    const a = format(matrix, size)
-   const matrixR = inverseMatrix(a, mod)
+   const [matrixR, extended] = inverseMatrix(a, mod)
    const result = matrixToArray(matrixR).map((v) => v.toString())
+   const extendedArr = matrixToArray(extended).map((v) => v.toString())
 
    return (
       <VStack spacing={10}>
-         <Heading fontSize='lg'>Inverse matrix</Heading>
+         <Heading fontSize='2xl'>
+            Inverse matrix {mod && <FieldText mod={mod} />}
+         </Heading>
 
          <HStack>
             <Input
@@ -43,7 +47,7 @@ export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
          </HStack>
 
          <HStack spacing={5}>
-            <Matrix
+            <MatrixContainer
                rows={size}
                columns={size}
                values={matrix}
@@ -53,13 +57,26 @@ export function InverseMatrix({ field, modulus }: InverseMatrixProps) {
             />
          </HStack>
 
-         <Matrix
+         <Text fontWeight='bold' textColor='blue.500'>
+            Result
+         </Text>
+         <MatrixContainer
             rows={size}
             columns={size}
             values={result}
             field={field}
             mod={mod}
-            cellSize='70'
+         />
+
+         <Text fontWeight='bold' textColor='teal.500'>
+            Extended matrix
+         </Text>
+         <MatrixContainer
+            rows={size}
+            columns={(Number(size) * 2).toString()}
+            values={extendedArr}
+            field={field}
+            mod={mod}
          />
       </VStack>
    )

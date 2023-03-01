@@ -9,7 +9,6 @@ import {
    Text,
    VStack,
 } from '@chakra-ui/react'
-import { Matrix } from '@/features/Matrix/components/Matrix'
 import { useMatrix } from '@/features/Matrix/hooks'
 import { useState } from 'react'
 import {
@@ -18,6 +17,8 @@ import {
    ArrToMatrix,
    matrixToArray,
 } from '@/features/Matrix/utils'
+import { MatrixContainer } from '@/features/Matrix/components/MatrixContainer'
+import { FieldText } from '@/features/Matrix/components/FieldText'
 
 interface MultiplyMatrixesProps {
    field: Field
@@ -46,7 +47,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
    const [matrixB, onMatrixBChange] = useMatrix(Number(rowsB), Number(columnsB))
 
    const mod = field === 'finite' ? modulus : undefined
-   const isValid = columnsA === rowsB
+   const isValid = columnsA === rowsB && rowsA
 
    const a = format(matrixA, rowsA, columnsA)
    const b = format(matrixB, rowsB, columnsB)
@@ -59,8 +60,10 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
    }
 
    return (
-      <VStack spacing={10}>
-         <Heading fontSize='lg'>Multiply matrixes</Heading>
+      <VStack spacing={20}>
+         <Heading fontSize='2xl'>
+            Multiply matrixes {mod && <FieldText mod={mod} />}
+         </Heading>
 
          <Stack
             gap={5}
@@ -68,11 +71,11 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
                base: 'column',
                md: 'row',
             }}
-            spacing={5}
+            spacing={10}
             flexWrap='wrap'
             align='center'
          >
-            <VStack>
+            <VStack spacing={10}>
                <HStack>
                   <Input
                      w={20}
@@ -95,7 +98,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
                   />
                </HStack>
 
-               <Matrix
+               <MatrixContainer
                   rows={rowsA}
                   columns={columnsA}
                   values={matrixA}
@@ -107,7 +110,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
 
             <IconButton aria-label='Close' icon={<CloseIcon />} />
 
-            <VStack>
+            <VStack spacing={10}>
                <HStack>
                   <Input
                      w={20}
@@ -130,7 +133,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
                   />
                </HStack>
 
-               <Matrix
+               <MatrixContainer
                   rows={rowsB}
                   columns={columnsB}
                   values={matrixB}
@@ -142,7 +145,7 @@ export function MultiplyMatrixes({ field, modulus }: MultiplyMatrixesProps) {
          </Stack>
 
          {isValid ? (
-            <Matrix
+            <MatrixContainer
                rows={rowsA}
                columns={columnsB}
                values={result}

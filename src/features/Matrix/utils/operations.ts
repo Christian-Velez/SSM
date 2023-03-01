@@ -1,4 +1,8 @@
-import { inverseAdditive, modularInverse } from '@/features/FiniteFields/utils'
+import {
+   inverseAdditive,
+   modularInverse,
+   mod,
+} from '@/features/FiniteFields/utils'
 
 function generateMatrix(rows: number, columns: number) {
    return Array.from(Array(rows), () => new Array(columns))
@@ -15,7 +19,7 @@ export function sumArrays(
       if (modulus === undefined) {
          result[i] = a[i] + b[i]
       } else {
-         result[i] = (a[i] + b[i]) % modulus
+         result[i] = mod(a[i] + b[i], modulus)
       }
    }
 
@@ -45,13 +49,12 @@ export function multiplyMatrixes(
          result[r][c] = 0
 
          for (let i = 0; i < columnsA; i++) {
-            let value = a[r][i] * b[i][c]
-
             if (modulus === undefined) {
+               const value = a[r][i] * b[i][c]
                result[r][c] += value
             } else {
-               value = value % modulus
-               result[r][c] = (result[r][c] + value) % modulus
+               const value = mod(a[r][i] * b[i][c], modulus)
+               result[r][c] = mod(result[r][c] + value, modulus)
             }
          }
       }
@@ -99,7 +102,7 @@ function multiplyRow_Finite(
    const size = row.length
 
    for (let i = 0; i < size; i++) {
-      row[i] = (row[i] * factor) % modulus
+      row[i] = mod(row[i] * factor, modulus)
    }
 }
 
@@ -124,7 +127,7 @@ function transformRowBasedOnPivot_Finite(
    const size = row.length
 
    for (let i = 0; i < size; i++) {
-      row[i] = (row[i] + inverseAdd * pivotRow[i]) % modulus
+      row[i] = mod(row[i] + inverseAdd * pivotRow[i], modulus)
    }
 }
 
@@ -184,5 +187,5 @@ export function inverseMatrix(a: Array<Array<number>>, modulus?: number) {
       }
    }
 
-   return result
+   return [result, extended]
 }

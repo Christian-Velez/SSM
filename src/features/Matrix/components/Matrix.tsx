@@ -2,7 +2,7 @@ import { Field } from '@/features/Matrix/pages'
 import { Flex, Grid, Input } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 
-interface MatrixProps {
+export interface MatrixProps {
    cellSize?: string
    columns: string
    field: Field
@@ -10,6 +10,7 @@ interface MatrixProps {
    onCellChange?: (value: string, index: number) => void
    rows: string
    values: Array<string>
+   color?: string
 }
 
 const bracketColor = 'var(--chakra-colors-blue-300)'
@@ -37,7 +38,7 @@ const RightBracket = styled.div`
 `
 
 export function Matrix({
-   cellSize = '50',
+   cellSize = '100',
    columns,
    field,
    mod,
@@ -97,11 +98,17 @@ export function Matrix({
    )
 }
 
-function formatValue(value: string) {
+function formatValue(value: string): string {
+   const DECIMAL_TOLERANCE = 0.000005
    const asNum = Number(value)
-   const remainder = Math.abs(asNum) % 1
+   const rounded = Math.round(asNum)
 
+   if (Math.abs(asNum - rounded) < DECIMAL_TOLERANCE) {
+      return rounded.toString()
+   }
+
+   const remainder = Math.abs(asNum) % 1
    if (remainder === 0) return value
 
-   return asNum.toFixed(2).toString()
+   return asNum.toFixed(4).toString()
 }
