@@ -131,12 +131,12 @@ function transformRowBasedOnPivot_Finite(
    }
 }
 
-export function inverseMatrix(a: Array<Array<number>>, modulus?: number) {
+function gaussJordan(
+   a: Array<Array<number>>,
+   extended: Array<Array<number>>,
+   modulus?: number
+) {
    const rows = a.length ?? 0
-   const columns = a[0]?.length ?? 0
-   if (rows === 0 || columns === 0) return []
-
-   const extended = generateExtendedMatrix(a)
 
    for (let pivot = 0; pivot < rows; pivot++) {
       if (modulus === undefined) {
@@ -179,6 +179,15 @@ export function inverseMatrix(a: Array<Array<number>>, modulus?: number) {
          i++
       }
    }
+}
+
+export function inverseMatrix(a: Array<Array<number>>, modulus?: number) {
+   const rows = a.length ?? 0
+   const columns = a[0]?.length ?? 0
+   if (rows === 0 || columns === 0) return []
+
+   const extended = generateExtendedMatrix(a)
+   gaussJordan(a, extended, modulus)
 
    const result = generateMatrix(rows, columns)
    for (let r = 0; r < rows; r++) {
@@ -188,4 +197,28 @@ export function inverseMatrix(a: Array<Array<number>>, modulus?: number) {
    }
 
    return [result, extended]
+}
+
+export function rref(
+   a: Array<Array<number>>,
+   extendWith: Array<Array<number>>,
+   modulus?: number
+): Array<Array<number>> {
+   const rows = a.length
+   const columns = a[0].length
+   const extended = generateMatrix(rows, columns + 1)
+
+   // fill extended
+   for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns + 1; c++) {
+         if (c < columns) {
+            extended[r][c] = a[r][c]
+         } else {
+            extended[r][c] = extendWith[r][0]
+         }
+      }
+   }
+
+   gaussJordan(a, extended, modulus)
+   return extended
 }

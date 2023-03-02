@@ -2,13 +2,8 @@ import { FieldText } from '@/features/Matrix/components/FieldText'
 import { MatrixContainer } from '@/features/Matrix/components/MatrixContainer'
 import { useMatrix } from '@/features/Matrix/hooks'
 import { Field } from '@/features/Matrix/pages'
-import {
-   ArrToMatrix,
-   matrixToArray,
-   multiplyMatrixes,
-   StrArrayToNumber,
-} from '@/features/Matrix/utils'
-import { CloseIcon } from '@chakra-ui/icons'
+import { ArrToMatrix, rref, StrArrayToNumber } from '@/features/Matrix/utils'
+import { ArrowLeftIcon } from '@chakra-ui/icons'
 import {
    Heading,
    HStack,
@@ -19,6 +14,7 @@ import {
    VStack,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { matrixToArray } from '../utils/format'
 
 interface RREFProps {
    field: Field
@@ -42,6 +38,17 @@ export function RREF({ field, mod }: RREFProps) {
    const [columnsA, setColumnsA] = useState('2')
    const [matrixA, onMatrixAChange] = useMatrix(Number(rowsA), Number(columnsA))
    const [extendM, onExtendChange] = useMatrix(Number(rowsA), Number('1'))
+
+   const m = format(matrixA, rowsA, columnsA)
+   const extend = format(extendM, rowsA, '1')
+
+   let result: Array<string> = []
+   const isValid = Number(rowsA) !== 0
+
+   if (isValid) {
+      const rrefMatrix = rref(m, extend, mod)
+      result = matrixToArray(rrefMatrix).map((v) => v.toString())
+   }
 
    return (
       <VStack spacing={20}>
@@ -92,7 +99,7 @@ export function RREF({ field, mod }: RREFProps) {
                />
             </VStack>
 
-            <IconButton aria-label='Close' icon={<CloseIcon />} />
+            <IconButton aria-label='left' icon={<ArrowLeftIcon />} />
 
             <VStack spacing={10}>
                <Text>Extend with</Text>
@@ -107,6 +114,17 @@ export function RREF({ field, mod }: RREFProps) {
                />
             </VStack>
          </Stack>
+
+         <Text fontWeight='bold' textColor='teal.500'>
+            RREF
+         </Text>
+         <MatrixContainer
+            rows={rowsA}
+            columns={(Number(rowsA) + 1).toString()}
+            values={result}
+            field={field}
+            mod={mod}
+         />
       </VStack>
    )
 }

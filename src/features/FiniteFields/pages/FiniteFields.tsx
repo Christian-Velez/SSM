@@ -16,7 +16,7 @@ export function FiniteFields() {
 
    return (
       <VStack>
-         <VStack w='400px' spacing={20}>
+         <VStack w='400px' maxW='95vw' spacing={20}>
             <HStack w='full'>
                <Input
                   value={field}

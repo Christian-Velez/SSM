@@ -21,6 +21,19 @@ export function MatrixPage() {
       <Box>
          <VStack spacing={5} alignItems='start' w={200}>
             <Select
+               title='Operation'
+               value={option}
+               onChange={(e) => {
+                  setOperation(e.target.value as Option)
+               }}
+            >
+               <option value='sum'>Sum</option>
+               <option value='multiply'>Multiply</option>
+               <option value='inverse'>Inverse</option>
+               <option value='rref'>RREF</option>
+            </Select>
+
+            <Select
                title='Field'
                value={field}
                onChange={(e) => {
@@ -40,19 +53,6 @@ export function MatrixPage() {
                   }}
                />
             )}
-
-            <Select
-               title='Operation'
-               value={option}
-               onChange={(e) => {
-                  setOperation(e.target.value as Option)
-               }}
-            >
-               <option value='sum'>Sum</option>
-               <option value='multiply'>Multiply</option>
-               <option value='inverse'>Inverse</option>
-               <option value='rref'>RREF</option>
-            </Select>
          </VStack>
 
          {mod !== undefined ? (
